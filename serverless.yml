@@ -4,6 +4,8 @@ service: aws-nodejs
 provider:
   name: aws
   runtime: nodejs20.x
+  custom:
+    region: ${{ secrets.AWS_REGION }}
   environment:
     AWS_REGION_SES: ${{ secrets.AWS_REGION }}
     DEFAULT_TO_EMAIL: ${{ secrets.DEFAULT_TO_EMAIL }}
