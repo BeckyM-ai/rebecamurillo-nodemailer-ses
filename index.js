@@ -74,6 +74,7 @@ async function validateCaptcha(recaptchaResponse) {
   );
 
   const data = await response.json();
+  console.log("recaptcha response: ", data);
   return data;
 }
 
