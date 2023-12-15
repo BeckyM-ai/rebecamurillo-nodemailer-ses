@@ -37,5 +37,5 @@ jobs:
 
     - name: Remove and Deploy Lambda function
       run: |
-        npx serverless deploy --AWS_REGION_SES ${{ env.AWS_REGION }} --DEFAULT_FROM_EMAIL ${{ env.DEFAULT_FROM_EMAIL }} --DEFAULT_TO_EMAIL ${{ env.DEFAULT_TO_EMAIL }}
+        npx serverless deploy AWS_REGION=${{ env.AWS_REGION }} DEFAULT_FROM_EMAIL=${{ env.DEFAULT_FROM_EMAIL }} DEFAULT_TO_EMAIL=${{ env.DEFAULT_TO_EMAIL }}
 
