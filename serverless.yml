@@ -19,21 +19,6 @@ provider:
     DEFAULT_TO_EMAIL: ${param:DEFAULT_TO_EMAIL}
     DEFAULT_FROM_EMAIL: ${param:DEFAULT_FROM_EMAIL}
 
-resources:
-  Resources:
-    RateLimiter:
-      Type: AWS::ApiGateway::UsagePlan
-      Properties:
-        ApiStages:
-          - ApiId: !Ref ApiGatewayRestApi
-            Stage: !Ref ApiGatewayStage
-        Quota:
-          Limit: 5
-          Period: DAY
-        Throttle:
-          BurstLimit: 5
-          RateLimit: 0.2
-
 functions:
   sendEmail:
     handler: index.handler
