@@ -19,6 +19,7 @@ exports.handler = async (event) => {
         to: DEFAULT_TO_EMAIL,
         subject: 'Hello from AWS SES!',
         text: 'Hello AWS SES!',
+        source: DEFAULT_FROM_EMAIL // Add the 'source' property with the value of DEFAULT_FROM_EMAIL
     };
 
     try {
