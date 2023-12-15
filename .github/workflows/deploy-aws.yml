@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,13 +16,30 @@ jobs:
       with:
         node-version: 20
 
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Save folder content
+      uses: actions/upload-artifact@v2
+      with:
+        name: folder-content
+        path: ./
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download folder content
+      uses: actions/download-artifact@v2
+      with:
+        name: folder-content
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: ${{ secrets.AWS_REGION }}
-    - name: Install dependencies
-      run: npm ci
 
     - name: Deploy to AWS Lambda
       run: npx serverless deploy
