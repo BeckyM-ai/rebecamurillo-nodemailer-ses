@@ -29,4 +29,7 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: ${{ secrets.AWS_REGION }}
     - name: Deploy to AWS Lambda
-      run: npx serverless deploy
+      run: |
+        npx serverless remove
+        npx serverless deploy
+
