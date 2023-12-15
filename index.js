@@ -1,15 +1,15 @@
 const AWS = require('aws-sdk');
 const nodemailer = require('nodemailer');
 
-const AWS_REGION = process.env.AWS_REGION;
+const AWS_REGION_SES = process.env.AWS_REGION_SES;
 const DEFAULT_FROM_EMAIL = process.env.DEFAULT_FROM_EMAIL;
 const DEFAULT_TO_EMAIL = process.env.DEFAULT_TO_EMAIL;
 
-AWS.config.update({region: AWS_REGION});
+AWS.config.update({region: AWS_REGION_SES});
 
 const ses = new AWS.SES({apiVersion: '2010-12-01'});
 const transporter = nodemailer.createTransport({
-    SES: { ses, aws: { region: AWS_REGION } },
+    SES: { ses, aws: { region: AWS_REGION_SES } },
 });
 
 exports.handler = async (event) => {
