@@ -6,6 +6,14 @@ provider:
   runtime: nodejs20.x
   custom:
     region: eu-west-3
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "ses:SendEmail"
+            - "ses:SendRawEmail"
+          Resource: "*"
   environment:
     AWS_REGION_SES: eu-west-3
     DEFAULT_TO_EMAIL: rebeca.murillo.pro@gmail.com
