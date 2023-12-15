@@ -14,6 +14,7 @@ const transporter = nodemailer.createTransport({
 
 exports.handler = async (event) => {
     console.log('event: ', event)
+    console.log('environment variables: ', process.env)
     const params = {
         from: DEFAULT_FROM_EMAIL,
         to: DEFAULT_TO_EMAIL,
