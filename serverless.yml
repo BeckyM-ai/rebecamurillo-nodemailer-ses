@@ -5,6 +5,7 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: ${param:AWS_REGION}
+  stage: production
   iam:
     role:
       statements:
@@ -18,6 +19,21 @@ provider:
     DEFAULT_TO_EMAIL: ${param:DEFAULT_TO_EMAIL}
     DEFAULT_FROM_EMAIL: ${param:DEFAULT_FROM_EMAIL}
 
+resources:
+  Resources:
+    RateLimiter:
+      Type: AWS::ApiGateway::UsagePlan
+      Properties:
+        ApiStages:
+          - ApiId: !Ref ApiGatewayRestApi
+            Stage: !Ref ApiGatewayStage
+        Quota:
+          Limit: 5
+          Period: DAY
+        Throttle:
+          BurstLimit: 5
+          RateLimit: 0.2
+
 functions:
   sendEmail:
     handler: index.handler
@@ -27,3 +43,10 @@ functions:
       - http:
           path: message
           method: post
+          cors: true
+          private: true
+          usagePlan:
+            name: RateLimiter
+            throttle:
+              burstLimit: 5
+              rateLimit: 0.2
