@@ -34,5 +34,5 @@ jobs:
 
     - name: Remove and Deploy Lambda function
       run: |
-        npx serverless remove --function ${{ env.FUNCTION_NAME }} --region ${{ secrets.AWS_REGION }} --role ${{ secrets.AWS_ROLE_ARN }}
-        npx serverless deploy --function ${{ env.FUNCTION_NAME }} --region ${{ secrets.AWS_REGION }} --role ${{ secrets.AWS_ROLE_ARN }}
+        npx serverless remove
+        npx serverless deploy
