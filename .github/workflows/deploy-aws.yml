@@ -12,6 +12,7 @@ env:
   AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
   DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
   DEFAULT_TO_EMAIL: ${{ secrets.DEFAULT_TO_EMAIL }}
+  CAPTCHA_SECRET_KEY: ${{ secrets.CAPTCHA_SECRET_KEY }}
 
 jobs:
   build:
@@ -37,4 +38,8 @@ jobs:
 
     - name: Deploy Lambda function
       run: |
-        npx serverless deploy --param="AWS_REGION=${{ env.AWS_REGION }}" --param="DEFAULT_FROM_EMAIL=${{ env.DEFAULT_FROM_EMAIL }}" --param="DEFAULT_TO_EMAIL=${{ env.DEFAULT_TO_EMAIL }}"
+        run: |
+          npx serverless deploy --param="AWS_REGION=${{ env.AWS_REGION }}" \
+            --param="DEFAULT_FROM_EMAIL=${{ env.DEFAULT_FROM_EMAIL }}" \
+            --param="DEFAULT_TO_EMAIL=${{ env.DEFAULT_TO_EMAIL }}" \
+            --param="CAPTCHA_SECRET_KEY=${{ env.CAPTCHA_SECRET_KEY }}"
