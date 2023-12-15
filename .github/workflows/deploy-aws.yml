@@ -7,6 +7,9 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  FUNCTION_NAME: nodemailer-ses-serverless
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,8 +31,8 @@ jobs:
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: ${{ secrets.AWS_REGION }}
-    - name: Deploy to AWS Lambda
-      run: |
-        npx serverless remove
-        npx serverless deploy
 
+    - name: Remove and Deploy Lambda function
+      run: |
+        npx serverless remove --function ${{ env.FUNCTION_NAME }} --region ${{ secrets.AWS_REGION }} --role ${{ secrets.AWS_ROLE_ARN }}
+        npx serverless deploy --function ${{ env.FUNCTION_NAME }} --region ${{ secrets.AWS_REGION }} --role ${{ secrets.AWS_ROLE_ARN }}
