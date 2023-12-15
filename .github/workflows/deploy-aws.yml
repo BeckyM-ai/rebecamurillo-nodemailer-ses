@@ -35,7 +35,6 @@ jobs:
         role-to-assume: ${{ env.AWS_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Remove and Deploy Lambda function
+    - name: Deploy Lambda function
       run: |
-        npx serverless deploy AWS_REGION=${{ env.AWS_REGION }} DEFAULT_FROM_EMAIL=${{ env.DEFAULT_FROM_EMAIL }} DEFAULT_TO_EMAIL=${{ env.DEFAULT_TO_EMAIL }}
-
+        npx serverless deploy --param="AWS_REGION=${{ env.AWS_REGION }}" --param="DEFAULT_FROM_EMAIL=${{ env.DEFAULT_FROM_EMAIL }}" --param="DEFAULT_TO_EMAIL=${{ env.DEFAULT_TO_EMAIL }}"
