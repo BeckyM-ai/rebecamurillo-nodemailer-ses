@@ -14,90 +14,96 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.handler = async (event) => {
-    console.log("event: ", event);
+  console.log("event: ", event);
 
-    const { recaptchaResponse, to, from, subject, text } = event;
+  const { recaptchaResponse, to, from, subject, text } = event;
 
-    // Step 1: Validate the reCAPTCHA response
-    const captchaValidationResult = await validateCaptcha(recaptchaResponse);
-    if (!captchaValidationResult.success) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: 'reCAPTCHA verification failed' }),
-        };
-    }
+  // Step 1: Validate the reCAPTCHA response
+  const captchaValidationResult = await validateCaptcha(recaptchaResponse);
+  if (!captchaValidationResult.success) {
+    return response(400, { message: "reCAPTCHA verification failed" });
+  }
 
-    // Step 2: Validate input parameters
-    const inputValidationResult = validateInputParameters(to, from, subject, text);
-    if (!inputValidationResult.valid) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ message: 'Invalid input parameters' }),
-        };
-    }
+  // Step 2: Validate input parameters
+  const inputValidationResult = validateInputParameters(
+    to,
+    from,
+    subject,
+    text
+  );
+  if (!inputValidationResult.valid) {
+    return response(400, { message: "Invalid input parameters" });
+  }
 
-    // Step 3: Send email
-    const emailSendingResult = await sendEmail(from, to, subject, text);
-    if (emailSendingResult.error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ message: 'Error sending message', error: emailSendingResult.error }),
-        };
-    }
+  // Step 3: Send email
+  const emailSendingResult = await sendEmail(to, from, subject, text);
+  if (emailSendingResult.error) {
+    return response(500, {
+      message: "Error sending message",
+      error: emailSendingResult.error,
+    });
+  }
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message: 'Email sent successfully' }),
-    };
+  return response(200, { message: "Email sent successfully" });
 };
 
-async function validateCaptcha(recaptchaResponse) {
-    if (!CAPTCHA_SECRET_KEY) {
-        // If no secret key is provided, skip the validation
-        return { success: true };
-    }
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-            secret: CAPTCHA_SECRET_KEY,
-            response: recaptchaResponse,
-        }),
-    });
+function response(statusCode, body) {
+  return {
+    statusCode,
+    body: JSON.stringify(body),
+  };
+}
 
-    const data = await response.json();
-    return data;
+async function validateCaptcha(recaptchaResponse) {
+  if (!CAPTCHA_SECRET_KEY) {
+    // If no secret key is provided, skip the validation
+    return { success: true };
+  }
+  const response = await fetch(
+    "https://www.google.com/recaptcha/api/siteverify",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        secret: CAPTCHA_SECRET_KEY,
+        response: recaptchaResponse,
+      }),
+    }
+  );
+
+  const data = await response.json();
+  return data;
 }
 
 function validateInputParameters(to, from, subject, text) {
-    if (
-        typeof to !== 'string' ||
-        typeof from !== 'string' ||
-        typeof subject !== 'string' ||
-        typeof text !== 'string'
-    ) {
-        return { valid: false };
-    }
+  if (
+    typeof to !== "string" ||
+    typeof from !== "string" ||
+    typeof subject !== "string" ||
+    typeof text !== "string"
+  ) {
+    return { valid: false };
+  }
 
-    return { valid: true };
+  return { valid: true };
 }
 
-async function sendEmail(from, to, subject, text) {
-    const params = {
-        from: from || DEFAULT_FROM_EMAIL,
-        to: to || DEFAULT_TO_EMAIL,
-        subject,
-        text,
-    };
+async function sendEmail(to, from, subject, text) {
+  const params = {
+    from: from || DEFAULT_FROM_EMAIL,
+    to: to || DEFAULT_TO_EMAIL,
+    subject,
+    text,
+  };
 
-    try {
-        let info = await transporter.sendMail(params);
-        console.log('Message sent: %s', info.messageId);
-        return { success: true };
-    } catch (error) {
-        console.error('Error sending message: ', error);
-        return { error };
-    }
+  try {
+    let info = await transporter.sendMail(params);
+    console.log("Message sent: %s", info.messageId);
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending message: ", error);
+    return { error };
+  }
 }
