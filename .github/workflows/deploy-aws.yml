@@ -13,6 +13,7 @@ env:
   DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
   DEFAULT_TO_EMAIL: ${{ secrets.DEFAULT_TO_EMAIL }}
   CAPTCHA_SECRET_KEY: ${{ secrets.CAPTCHA_SECRET_KEY }}
+  ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
 
 jobs:
   build:
@@ -42,4 +43,5 @@ jobs:
           npx serverless deploy --param="AWS_REGION=${{ env.AWS_REGION }}" \
             --param="DEFAULT_FROM_EMAIL=${{ env.DEFAULT_FROM_EMAIL }}" \
             --param="DEFAULT_TO_EMAIL=${{ env.DEFAULT_TO_EMAIL }}" \
-            --param="CAPTCHA_SECRET_KEY=${{ env.CAPTCHA_SECRET_KEY }}"
+            --param="CAPTCHA_SECRET_KEY=${{ env.CAPTCHA_SECRET_KEY }}" \
+            --param="ALLOWED_ORIGIN=${{ env.ALLOWED_ORIGIN }}"

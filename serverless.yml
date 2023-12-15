@@ -29,4 +29,5 @@ functions:
       - http:
           path: message
           method: post
-          cors: true
+          cors:
+            origin: ${param:ALLOWED_ORIGIN}
