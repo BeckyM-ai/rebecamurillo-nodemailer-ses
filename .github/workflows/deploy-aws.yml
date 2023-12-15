@@ -8,7 +8,10 @@ permissions:
   contents: read
 
 env:
-  FUNCTION_NAME: nodemailer-ses-serverless
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+  DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
+  DEFAULT_TO_EMAIL: ${{ secrets.DEFAULT_TO_EMAIL }}
 
 jobs:
   build:
@@ -29,9 +32,10 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-        aws-region: eu-west-3
+        role-to-assume: ${{ env.AWS_ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Remove and Deploy Lambda function
       run: |
-        npx serverless deploy
+        npx serverless deploy --AWS_REGION_SES ${{ env.AWS_REGION }} --DEFAULT_FROM_EMAIL ${{ env.DEFAULT_FROM_EMAIL }} --DEFAULT_TO_EMAIL ${{ env.DEFAULT_TO_EMAIL }}
+

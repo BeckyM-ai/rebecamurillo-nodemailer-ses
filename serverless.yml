@@ -4,8 +4,7 @@ service: aws-nodejs
 provider:
   name: aws
   runtime: nodejs20.x
-  custom:
-    region: eu-west-3
+  region: {$opt:AWS_REGION_SES}
   iam:
     role:
       statements:
@@ -15,9 +14,9 @@ provider:
             - "ses:SendRawEmail"
           Resource: "*"
   environment:
-    AWS_REGION_SES: eu-west-3
-    DEFAULT_TO_EMAIL: rebeca.murillo.pro@gmail.com
-    DEFAULT_FROM_EMAIL: rebeca.murillo.pro@gmail.com
+    AWS_REGION_SES: {$opt:AWS_REGION_SES}
+    DEFAULT_TO_EMAIL: {$opt:DEFAULT_TO_EMAIL}
+    DEFAULT_FROM_EMAIL: {$opt:DEFAULT_FROM_EMAIL}
 
 functions:
   sendEmail:
