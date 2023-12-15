@@ -44,9 +44,3 @@ functions:
           path: message
           method: post
           cors: true
-          private: true
-          usagePlan:
-            name: RateLimiter
-            throttle:
-              burstLimit: 5
-              rateLimit: 0.2
