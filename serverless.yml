@@ -15,4 +15,4 @@ functions:
     name: nodemailer-ses-serverless
     description: Send email using nodemailer and AWS SES
     iam:
-      role: {{ secrets.AWS_ROLE_ARN }}
+      role: ${{ secrets.AWS_ROLE_ARN }}
