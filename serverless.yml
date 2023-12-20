@@ -1,5 +1,5 @@
 # serverless.yml
-service: aws-nodejs
+service: rebecamurillo-nodemailer-ses
 
 provider:
   name: aws
@@ -23,7 +23,7 @@ provider:
 functions:
   sendEmail:
     handler: index.handler
-    name: nodemailer-ses-serverless
+    name: sendEmail
     description: Send email using nodemailer and AWS SES   
     events:
       - http:

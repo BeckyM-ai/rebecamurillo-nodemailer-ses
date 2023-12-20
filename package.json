@@ -1,5 +1,5 @@
 {
-  "name": "nodemailer-serverless-template",
+  "name": "nodemailer-serverless",
   "version": "1.0.0",
   "description": "Template repository deploy your serverless function for email sending with Github Actions workflow setup",
   "main": "index.js",
