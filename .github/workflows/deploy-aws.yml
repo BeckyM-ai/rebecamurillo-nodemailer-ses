@@ -16,7 +16,7 @@ env:
   ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
