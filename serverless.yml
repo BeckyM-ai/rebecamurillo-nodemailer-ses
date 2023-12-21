@@ -19,6 +19,7 @@ provider:
     DEFAULT_TO_EMAIL: ${param:DEFAULT_TO_EMAIL}
     DEFAULT_FROM_EMAIL: ${param:DEFAULT_FROM_EMAIL}
     CAPTCHA_SECRET_KEY: ${param:CAPTCHA_SECRET_KEY}
+    ALLOWED_ORIGIN: ${param:ALLOWED_ORIGIN}
 
 functions:
   sendEmail:
