@@ -5,6 +5,7 @@ const AWS_REGION_SES = process.env.AWS_REGION_SES;
 const DEFAULT_FROM_EMAIL = process.env.DEFAULT_FROM_EMAIL;
 const DEFAULT_TO_EMAIL = process.env.DEFAULT_TO_EMAIL;
 const CAPTCHA_SECRET_KEY = process.env.CAPTCHA_SECRET_KEY;
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN;
 
 AWS.config.update({ region: AWS_REGION_SES });
 
@@ -50,6 +51,9 @@ exports.handler = async (event) => {
 function response(statusCode, body) {
   return {
     statusCode,
+    headers: {
+      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+    },
     body: JSON.stringify(body),
   };
 }
