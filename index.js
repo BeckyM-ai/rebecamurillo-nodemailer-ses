@@ -84,8 +84,8 @@ async function validateCaptcha(recaptchaResponse) {
 
 function validateInputParameters(to, from, subject, text) {
   if (
-    typeof to !== "string" ||
-    typeof from !== "string" ||
+    (to && typeof to !== "string") ||
+    (from && typeof from !== "string") ||
     typeof subject !== "string" ||
     typeof text !== "string"
   ) {
