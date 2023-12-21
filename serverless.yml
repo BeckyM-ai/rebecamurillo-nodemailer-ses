@@ -31,3 +31,11 @@ functions:
           method: post
           cors:
             origin: ${param:ALLOWED_ORIGIN}
+            methods:
+                - OPTIONS
+                - POST
+            response:
+              headers:
+                Access-Control-Allow-Origin: "'${param:ALLOWED_ORIGIN}'"
+                Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+                Access-Control-Allow-Methods: "'OPTIONS,POST'"  
