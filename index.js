@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 exports.handler = async (event) => {
   console.log("event: ", event);
 
-  const { recaptchaResponse, to, from, subject, text } = event;
+  const { recaptchaResponse, to, from, subject, text } = event.body;
 
   // Step 1: Validate the reCAPTCHA response
   const captchaValidationResult = await validateCaptcha(recaptchaResponse);
